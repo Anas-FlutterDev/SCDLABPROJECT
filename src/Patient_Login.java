@@ -1,3 +1,10 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -199,20 +206,71 @@ public class Patient_Login extends javax.swing.JFrame {
     }//GEN-LAST:event_ptpswrdActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+                                            
+       String UserName=ptuser.getText();
+       String Password=ptpswrd.getText(); 
+       try{  
+Class.forName("com.mysql.jdbc.Driver");  
+//here sonoo is database name, root is username and password
+
+
+if(ptuser.getText().trim().isEmpty()&&ptpswrd.getText().trim().isEmpty()){
+    
+    lbl_puserName.setText("UserName is Empty");
+    lbl_puserPassword.setText("Password is Empty");
+    
+}
+else if(ptuser.getText().trim().isEmpty()){
+    lbl_puserName.setText("UserName is Empty");
+}
+
+else if(ptpswrd.getText().trim().isEmpty()){
+     lbl_puserPassword.setText("Password is Empty");
+}
+
+else
+    try (
+            Connection con = DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+        //here sonoo is database name, root is username and password
+        String sql="Select * from Patient where P_UserName=? and P_Password=?";
+        PreparedStatement ps=con.prepareStatement(sql);
+          ps.setString(1, UserName);
+          ps.setString(2, Password);
+          ResultSet rs=ps.executeQuery();
+//        Statement stmt=con.createStatement();
+//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
+        
+        
+        if(rs.next()){
+            JOptionPane.showMessageDialog(null, "Login succesfull");
+            Patient_chat Pc=new Patient_chat();
+            Pc.show();
+            dispose();
+        } 
+        else{
+        JOptionPane.showMessageDialog(null, "wrong login details");
+        ptuser.setText(null);
+        ptpswrd.setText(null);
+        
+        }
+        con.close();
+    }
+//      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
+//      ps.setString(1, "1");
+//      ps.setString(2, "Ali");
+//      ps.setString(3, "123445567");
+//      ps.executeUpdate();
+    
+}catch(Exception e){ System.out.println(e);}  
+
+
+//  
+//        Doctor_Chat Dc=new Doctor_Chat();
+//        Dc.show();
+//        dispose();
         // TODO add your handling code here:
-//        if(ptuser.getText().trim().isEmpty()&&ptpswrd.getText().trim().isEmpty()){
-//            lbl_puserName.setText("UserName is Empty");
-//            lbl_puserPassword.setText("Password is Empty");
-//        }
-//        else if(ptuser.getText().trim().isEmpty()){
-//    lbl_puserName.setText("UserName is Empty");
-//}
-//
-//else if(ptpswrd.getText().trim().isEmpty()){
-//     lbl_puserPassword.setText("Password is Empty");
-//}
-//
-//else
+    
        
     }//GEN-LAST:event_btnLoginActionPerformed
 

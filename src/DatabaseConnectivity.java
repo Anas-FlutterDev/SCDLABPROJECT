@@ -40,7 +40,8 @@ Class.forName("com.mysql.jdbc.Driver");
       ps.setString(3, "123445567");
       ps.executeUpdate();
     }
-}catch(Exception e){ System.out.println(e);}  
+}catch(Exception e){ 
+    System.out.println(e);}  
 
 
 }  

@@ -15,6 +15,9 @@ import java.sql.Statement;
 
 
 import java.sql.*;  
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 public class patient_register extends javax.swing.JFrame {
 
     /**
@@ -143,6 +146,7 @@ public class patient_register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+    
         String userName=userNametxt.getText().toString();
         String Email=Emailtxt.getText().toString();
         String Password=Passwordtxt.getText().toString();
@@ -175,6 +179,18 @@ Class.forName("com.mysql.jdbc.Driver");
 }catch(Exception e){ System.out.println(e);}  
         // TODO add your handling code here:
         
+            
+        if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", Emailtxt.getText()))) 
+{
+            JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "The email is valid", "Good!", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -184,7 +200,11 @@ Class.forName("com.mysql.jdbc.Driver");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void PasswordtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordtxtActionPerformed
+
         // TODO add your handling code here:
+        
+        
+        
     }//GEN-LAST:event_PasswordtxtActionPerformed
 
     /**
@@ -234,6 +254,8 @@ Class.forName("com.mysql.jdbc.Driver");
                 new patient_register().setVisible(true);
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

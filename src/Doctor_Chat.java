@@ -8,11 +8,20 @@
  *
  * @author stu
  */
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 public class Doctor_Chat extends javax.swing.JFrame {
 
     /**
      * Creates new form Doctor_Chat
      */
+    public static ServerSocket ss;
+     static Socket s;
+     static String receive2="",send2="";
+    static DataInputStream din;
+    static DataOutputStream dout;
     public Doctor_Chat() {
         initComponents();
     }
@@ -30,11 +39,11 @@ public class Doctor_Chat extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        msg_area2 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         textbox2 = new javax.swing.JTextField();
-        sendbtn2 = new javax.swing.JButton();
+        doctor_send = new javax.swing.JButton();
         save = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
@@ -45,9 +54,9 @@ public class Doctor_Chat extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        msg_area2.setColumns(20);
+        msg_area2.setRows(5);
+        jScrollPane1.setViewportView(msg_area2);
 
         jLabel1.setFont(new java.awt.Font("Pristina", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -64,10 +73,15 @@ public class Doctor_Chat extends javax.swing.JFrame {
             }
         });
 
-        sendbtn2.setBackground(new java.awt.Color(51, 153, 0));
-        sendbtn2.setFont(new java.awt.Font("SimSun-ExtB", 1, 14)); // NOI18N
-        sendbtn2.setText("Send");
-        sendbtn2.setToolTipText("");
+        doctor_send.setBackground(new java.awt.Color(51, 153, 0));
+        doctor_send.setFont(new java.awt.Font("SimSun-ExtB", 1, 14)); // NOI18N
+        doctor_send.setText("Send");
+        doctor_send.setToolTipText("");
+        doctor_send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                doctor_sendActionPerformed(evt);
+            }
+        });
 
         save.setFont(new java.awt.Font("SimSun-ExtB", 1, 14)); // NOI18N
         save.setText("Save Chat");
@@ -95,7 +109,7 @@ public class Doctor_Chat extends javax.swing.JFrame {
                                 .addComponent(jLabel2))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sendbtn2))
+                        .addComponent(doctor_send))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(136, 136, 136)
                         .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -113,7 +127,7 @@ public class Doctor_Chat extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textbox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sendbtn2))
+                    .addComponent(doctor_send))
                 .addGap(18, 18, 18)
                 .addComponent(save)
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -123,12 +137,29 @@ public class Doctor_Chat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void textbox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textbox2ActionPerformed
-        String receiver = textbox2.getText();
+ //        String receiver = doctor_text.getText();
+
+            receive2=textbox2.getText();
     }//GEN-LAST:event_textbox2ActionPerformed
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_saveActionPerformed
+
+    private void doctor_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctor_sendActionPerformed
+      
+// TODO add your handling code here:
+             try{
+        String msgout ="";
+        msgout = textbox2.getText().trim();
+        dout.writeUTF(msgout);
+        
+    }
+    catch(Exception e){
+        System.out.println("Exception occured!!");
+    }
+    
+    }//GEN-LAST:event_doctor_sendActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,18 +194,41 @@ public class Doctor_Chat extends javax.swing.JFrame {
                 new Doctor_Chat().setVisible(true);
             }
         });
+        
+         String msgin = "",
+                msgout="";
+        try {
+            ss = new ServerSocket(1201);
+            s = ss.accept();
+
+            din = new DataInputStream(s.getInputStream());
+            dout = new DataOutputStream(s.getOutputStream());
+            while (!msgin.equals("exit")) {
+                msgin = din.readUTF();
+                receive2 = msgin;
+                msg_area2.setText(msg_area2.getText().trim() + "\nPatient\t" + receive2+"\t");
+               
+            }
+
+        } 
+        catch (Exception e) {
+            System.out.println("Exception occured!!");
+        }
+        
+        
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton doctor_send;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private static javax.swing.JTextArea msg_area2;
     private javax.swing.JButton save;
-    private javax.swing.JButton sendbtn2;
     private javax.swing.JTextField textbox2;
     // End of variables declaration//GEN-END:variables
 }
