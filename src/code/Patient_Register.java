@@ -1,3 +1,5 @@
+package code;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -18,13 +20,48 @@ import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-public class patient_register extends javax.swing.JFrame {
+public class Patient_Register extends javax.swing.JFrame {
 
     /**
      * Creates new form patient_register
      */
-    public patient_register() {
+    public Patient_Register() {
         initComponents();
+    }
+    
+    
+    public boolean registerPatient(String userName,String Email,String Password){
+        
+        boolean check = false;
+        try{  
+Class.forName("com.mysql.jdbc.Driver");  
+//here sonoo is database name, root is username and password
+    try (
+            Connection con = DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+        //here sonoo is database name, root is username and password
+        int id=1;
+        Statement stmt=con.createStatement();
+//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
+        ResultSet rs=stmt.executeQuery("select * from patient");
+        
+        while(rs.next()){
+//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+        } 
+      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
+      
+      ps.setString(1, userName);
+      ps.setString(2, Email);
+      ps.setString(3,Password);
+      ps.executeUpdate();
+      
+      if(ps.executeUpdate()>0){
+          check =true;
+      }
+    }
+}catch(Exception e){ System.out.println(e);}
+        
+        return check;
     }
 
     /**
@@ -150,33 +187,16 @@ public class patient_register extends javax.swing.JFrame {
         String userName=userNametxt.getText().toString();
         String Email=Emailtxt.getText().toString();
         String Password=Passwordtxt.getText().toString();
-                
+        
+        boolean patient_registered = registerPatient(userName,Email,Password);
+        if(patient_registered ==true){
+                    System.out.println("Patient Registered.");
+
+        }      
 //                Emailtxt;
 //    private javax.swing.JTextField Passwordtxt
         
-        try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
-    try (
-            Connection con = DriverManager.getConnection(  
-            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
-        //here sonoo is database name, root is username and password
-        int id=1;
-        Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
-        ResultSet rs=stmt.executeQuery("select * from patient");
-        
-        while(rs.next()){
-//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-        } 
-      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
-      
-      ps.setString(1, userName);
-      ps.setString(2, Email);
-      ps.setString(3,Password);
-      ps.executeUpdate();
-    }
-}catch(Exception e){ System.out.println(e);}  
+          
         // TODO add your handling code here:
         
             
@@ -238,20 +258,21 @@ Class.forName("com.mysql.jdbc.Driver");
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(patient_register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patient_Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(patient_register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patient_Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(patient_register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patient_Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(patient_register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Patient_Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new patient_register().setVisible(true);
+                new Patient_Register().setVisible(true);
             }
         });
         

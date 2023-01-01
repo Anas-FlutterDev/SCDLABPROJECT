@@ -1,3 +1,5 @@
+package code;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -196,7 +198,7 @@ public class Patient_Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        patient_register pr1 = new patient_register();
+        Patient_Register pr1 = new Patient_Register();
         pr1.show();
          dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
