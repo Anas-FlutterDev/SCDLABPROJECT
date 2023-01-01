@@ -198,7 +198,7 @@ public class Patient_Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        Patient_Register pr1 = new Patient_Register();
+        patient_register pr1 = new patient_register();
         pr1.show();
          dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -246,8 +246,9 @@ else
         
         if(rs.next()){
             JOptionPane.showMessageDialog(null, "Login succesfull");
-            Patient_chat Pc=new Patient_chat();
-            Pc.show();
+            
+            Doctor_Selection dc = new Doctor_Selection();
+            dc.show();
             dispose();
         } 
         else{

@@ -10,10 +10,19 @@ package code;
  *
  * @author stu
  */
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 public class Doctor_Chat extends javax.swing.JFrame {
 
     /**
@@ -146,6 +155,48 @@ public class Doctor_Chat extends javax.swing.JFrame {
 
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
+        String doc_chat=msg_area2.getText();
+        
+        try
+        {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("./PatientChat_Record.txt"));
+            writer.write(doc_chat);
+            writer.close();
+           
+        }
+        catch (Exception e) {}
+         JOptionPane.showMessageDialog(this,"Saved Successfully.");
+         
+        String f1;                   //for Student Chat table
+        f1=this.msg_area2.getText();
+
+     try{  
+Class.forName("com.mysql.jdbc.Driver");  
+//here sonoo is database name, root is username and password
+    try (
+            Connection con = DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+        //here sonoo is database name, root is username and password
+        int id=1;
+        Statement stmt=con.createStatement();
+//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
+        ResultSet rs=stmt.executeQuery("select * from patient");
+        
+        while(rs.next()){
+//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+        } 
+      PreparedStatement ps=con.prepareStatement("INSERT into doc_chat VALUES (?)");
+      
+      ps.setString(1, f1);
+      
+      ps.executeUpdate();
+//      JOptionPane.showMessageDialog(rootPane, "Reiistration Successfull");
+      
+    }
+}catch(Exception e){ System.out.println(e);} 
+         
+    
+        
     }//GEN-LAST:event_saveActionPerformed
 
     private void doctor_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctor_sendActionPerformed
@@ -160,7 +211,10 @@ public class Doctor_Chat extends javax.swing.JFrame {
     catch(Exception e){
         System.out.println("Exception occured!!");
     }
-    
+             
+        
+
+
     }//GEN-LAST:event_doctor_sendActionPerformed
 
     /**
@@ -208,7 +262,7 @@ public class Doctor_Chat extends javax.swing.JFrame {
             while (!msgin.equals("exit")) {
                 msgin = din.readUTF();
                 receive2 = msgin;
-                msg_area2.setText(msg_area2.getText().trim() + "\nPatient\t" + receive2+"\t");
+                msg_area2.setText(msg_area2.getText().trim() + "\nPatient said:\t" + receive2+"\t");
                
             }
 
