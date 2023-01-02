@@ -153,28 +153,15 @@ public class Doctor_Login extends javax.swing.JFrame {
         dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       String UserName=username.getText();
-       String Password=password.getText(); 
-       try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
-
-
-if(username.getText().trim().isEmpty()&&password.getText().trim().isEmpty()){
-    lbl_duserName.setText("UserName is Empty");
-    lbl_duserPassword.setText("Password is Empty");
     
-}
-else if(username.getText().trim().isEmpty()){
-    lbl_duserName.setText("UserName is Empty");
-}
-
-else if(password.getText().trim().isEmpty()){
-     lbl_duserPassword.setText("Password is Empty");
-}
-
-else
+   public static boolean logincheck=false; 
+   
+   public boolean logintest(String username,String password)
+   {
+       String UserName=username;
+       String Password=password; 
+       try{  
+             Class.forName("com.mysql.jdbc.Driver");  
     try (
             Connection con = DriverManager.getConnection(  
             "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
@@ -184,11 +171,56 @@ else
           ps.setString(1, UserName);
           ps.setString(2, Password);
           ResultSet rs=ps.executeQuery();
-//        Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
+ 
+        if(rs.next()){
+            logincheck=true;
+        } 
+        
+        con.close();
+    }
+  }catch(Exception e){
+            System.out.println(e);
+        } 
+       return logincheck;
+   }//method for test
+   
+   
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       String UserName=username.getText();
+       String Password=password.getText(); 
+       try{  
+             Class.forName("com.mysql.jdbc.Driver");  
+
+
+
+    if(username.getText().trim().isEmpty()&&password.getText().trim().isEmpty()){
+    lbl_duserName.setText("UserName is Empty");
+    lbl_duserPassword.setText("Password is Empty");
+    
+     }
+     else if(username.getText().trim().isEmpty()){
+     lbl_duserName.setText("UserName is Empty");
+     }
+
+     else if(password.getText().trim().isEmpty()){
+     lbl_duserPassword.setText("Password is Empty");
+     }
+
+else
+    try (
+            Connection con = DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+        //here sonoo is database name, root is username and password
+        String sql="Select * from doctor where Doc_userName=? and Doc_Password=?";
+        PreparedStatement ps=con.prepareStatement(sql);
+        ps.setString(1, UserName);
+        ps.setString(2, Password);
+        ResultSet rs=ps.executeQuery();
+
         
         
         if(rs.next()){
+            
             JOptionPane.showMessageDialog(null, "Login succesfull");
             Doctor_Chat Dc=new Doctor_Chat();
             Dc.show();
@@ -202,22 +234,20 @@ else
         }
         con.close();
     }
-//      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
-//      ps.setString(1, "1");
-//      ps.setString(2, "Ali");
-//      ps.setString(3, "123445567");
-//      ps.executeUpdate();
+
     
-}catch(Exception e){ System.out.println(e);}  
+        }catch(Exception e){
+            System.out.println(e);
+        }  
 
-
-//  
-//        Doctor_Chat Dc=new Doctor_Chat();
-//        Dc.show();
-//        dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+   
+    
+    
+    
+    
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
@@ -270,7 +300,8 @@ else
             public void run() {
                 new Doctor_Login().setVisible(true);
             }
-        });
+        }
+        );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

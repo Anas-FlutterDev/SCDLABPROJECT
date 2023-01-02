@@ -143,7 +143,7 @@ public class patient_register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userNametxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNametxtActionPerformed
-        // TODO add your handling code here:
+   
     }//GEN-LAST:event_userNametxtActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -153,46 +153,101 @@ public class patient_register extends javax.swing.JFrame {
         String Email=Emailtxt.getText().toString();
         String Password=Passwordtxt.getText().toString();
                 
-//                Emailtxt;
-//    private javax.swing.JTextField Passwordtxt
+
         
         try{  
 Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
+
     try (
+            
             Connection con = DriverManager.getConnection(  
             "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
-        //here sonoo is database name, root is username and password
-        int id=1;
-        Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
-        ResultSet rs=stmt.executeQuery("select * from patient");
         
-        while(rs.next()){
-//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-        } 
-      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
+        
+            Statement stmt=con.createStatement();
+
+            ResultSet rs=stmt.executeQuery("select * from patient");
+        
+             while(rs.next()){
+             } 
+              PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
       
-      ps.setString(1, userName);
-      ps.setString(2, Email);
-      ps.setString(3,Password);
-      ps.executeUpdate();
-      JOptionPane.showMessageDialog(rootPane, "Reiistration Successfull");
+                ps.setString(1, userName);
+                ps.setString(2, Email);
+                ps.setString(3,Password);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(rootPane, "Reiistration Successfull");
       
-    }
-}catch(Exception e){ System.out.println(e);}  
+                }
+                }
+    catch(Exception e){ System.out.println(e);}  
         // TODO add your handling code here:
         
             
         if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", Emailtxt.getText()))) 
-{
+            {
             JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
-        
         
     }//GEN-LAST:event_jButton1ActionPerformed
+     
+    
+    
+    
+    String RegistrationCheck="Registration Successfull";
+    public String CheckRegistration(String Username,String email,String password){
+        
+        String userName=Username;
+        String Email=email;
+        String Password=password;
+                
 
+        
+        try{  
+            Class.forName("com.mysql.jdbc.Driver");  
+
+            try (
+                    Connection con = DriverManager.getConnection(  
+                    "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+                if (!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", email))) 
+                    {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
+                    RegistrationCheck="null";
+                    }
+                else{
+                    Statement stmt=con.createStatement();
+
+                ResultSet rs=stmt.executeQuery("select * from patient");
+
+                while(rs.next()){
+                } 
+              PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
+
+              ps.setString(1, userName);
+              ps.setString(2, Email);
+              ps.setString(3,Password);
+              ps.executeUpdate();
+              RegistrationCheck="Registration Successfull";
+
+
+                }
+
+
+
+
+            }
+}catch(Exception e){ System.out.println(e);}  
+        // TODO add your handling code here:
+        
+            
+        
+                return RegistrationCheck;
+            
+            }
+    
+    
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
                Patient_Login pl=new Patient_Login();
                pl.show();
@@ -211,19 +266,19 @@ Class.forName("com.mysql.jdbc.Driver");
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
-    try (Connection con = DriverManager.getConnection(  
-            "jdbc:mysql://localhost:80/SCD_Lab_Project","root","")) {
-        //here sonoo is database name, root is username and password
-        Statement stmt=con.createStatement();
-        stmt.executeUpdate("INSERT into patient VALUES ('1', 'Ali','123456')");
-        ResultSet rs=stmt.executeQuery("select * from patient");
-        while(rs.next())
-            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
-    }
-}catch(Exception e){ System.out.println(e);}  
+//        try{  
+//            Class.forName("com.mysql.jdbc.Driver");  
+//
+//                try (Connection con = DriverManager.getConnection(  
+//                        "jdbc:mysql://localhost:80/SCD_Lab_Project","root","")) {
+//
+//                    Statement stmt=con.createStatement();
+//                    stmt.executeUpdate("INSERT into patient VALUES ('1', 'Ali','123456')");
+//                    ResultSet rs=stmt.executeQuery("select * from patient");
+//                    while(rs.next())
+//                        System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+//                }
+//            }catch(Exception e){ System.out.println(e);}  
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

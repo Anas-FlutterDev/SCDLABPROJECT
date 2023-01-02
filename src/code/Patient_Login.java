@@ -190,6 +190,41 @@ public class Patient_Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ptuserActionPerformed
 
+    public static boolean logincheck=false; 
+   
+   public boolean logintest(String username,String password)
+   {
+       String UserName=username;
+       String Password=password; 
+       try{  
+             Class.forName("com.mysql.jdbc.Driver");  
+    try (
+            Connection con = DriverManager.getConnection(  
+            "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
+        //here sonoo is database name, root is username and password
+        String sql="Select * from Patient where P_UserName=? and P_Password=?";
+        PreparedStatement ps=con.prepareStatement(sql);
+          ps.setString(1, UserName);
+          ps.setString(2, Password);
+          ResultSet rs=ps.executeQuery();
+
+        
+        
+        if(rs.next()){
+            logincheck=true;
+            
+        } 
+        
+        con.close();
+    }
+
+    
+        }catch(Exception e){
+            System.out.println(e);
+        } 
+       return logincheck;
+   }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
       Doctor_Patient_Chat DpC2=new Doctor_Patient_Chat();
        DpC2.show();
@@ -212,45 +247,41 @@ public class Patient_Login extends javax.swing.JFrame {
        String UserName=ptuser.getText();
        String Password=ptpswrd.getText(); 
        try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
+           Class.forName("com.mysql.jdbc.Driver");  
 
 
-if(ptuser.getText().trim().isEmpty()&&ptpswrd.getText().trim().isEmpty()){
+            if(ptuser.getText().trim().isEmpty()&&ptpswrd.getText().trim().isEmpty()){
     
-    lbl_puserName.setText("UserName is Empty");
-    lbl_puserPassword.setText("Password is Empty");
+                lbl_puserName.setText("UserName is Empty");
+                lbl_puserPassword.setText("Password is Empty");
     
-}
-else if(ptuser.getText().trim().isEmpty()){
-    lbl_puserName.setText("UserName is Empty");
-}
+                }
+            else if(ptuser.getText().trim().isEmpty()){
+            lbl_puserName.setText("UserName is Empty");
+            }
 
-else if(ptpswrd.getText().trim().isEmpty()){
-     lbl_puserPassword.setText("Password is Empty");
-}
+            else if(ptpswrd.getText().trim().isEmpty()){
+            lbl_puserPassword.setText("Password is Empty");
+            }
 
-else
-    try (
+            else
+            try (
             Connection con = DriverManager.getConnection(  
             "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
-        //here sonoo is database name, root is username and password
-        String sql="Select * from Patient where P_UserName=? and P_Password=?";
-        PreparedStatement ps=con.prepareStatement(sql);
-          ps.setString(1, UserName);
-          ps.setString(2, Password);
-          ResultSet rs=ps.executeQuery();
-//        Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
-        
-        
+     
+            String sql="Select * from Patient where P_UserName=? and P_Password=?";
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setString(1, UserName);
+            ps.setString(2, Password);
+            ResultSet rs=ps.executeQuery();
+
         if(rs.next()){
             JOptionPane.showMessageDialog(null, "Login succesfull");
             
             Doctor_Selection dc = new Doctor_Selection();
             dc.show();
             dispose();
-        } 
+                    } 
         else{
         JOptionPane.showMessageDialog(null, "wrong login details");
         ptuser.setText(null);
@@ -259,22 +290,10 @@ else
         }
         con.close();
     }
-//      PreparedStatement ps=con.prepareStatement("INSERT into patient VALUES (?,?,?)");
-//      ps.setString(1, "1");
-//      ps.setString(2, "Ali");
-//      ps.setString(3, "123445567");
-//      ps.executeUpdate();
+
     
 }catch(Exception e){ System.out.println(e);}  
 
-
-//  
-//        Doctor_Chat Dc=new Doctor_Chat();
-//        Dc.show();
-//        dispose();
-        // TODO add your handling code here:
-    
-       
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void ptuserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ptuserKeyReleased

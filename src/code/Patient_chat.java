@@ -161,33 +161,26 @@ public class Patient_chat extends javax.swing.JFrame {
         f1=this.msg_area.getText();
 
      try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
+            Class.forName("com.mysql.jdbc.Driver");  
     try (
             Connection con = DriverManager.getConnection(  
             "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
-        //here sonoo is database name, root is username and password
-        int id=1;
         Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
         ResultSet rs=stmt.executeQuery("select * from patient");
         
         while(rs.next()){
-//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
         } 
       PreparedStatement ps=con.prepareStatement("INSERT into patient_chat VALUES (?)");
       
       ps.setString(1, f1);
       
       ps.executeUpdate();
-//      JOptionPane.showMessageDialog(rootPane, "Reiistration Successfull");
       
     }
-}catch(Exception e){ System.out.println(e);} 
-
-    
-        
-      
+    }   
+     catch(Exception e){
+         System.out.println(e);} 
+ 
     }//GEN-LAST:event_saveActionPerformed
 
     private void pat_sendbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pat_sendbtnActionPerformed
@@ -197,11 +190,11 @@ Class.forName("com.mysql.jdbc.Driver");
         msgout = textbox.getText().trim();
         dout.writeUTF(msgout);
         
-    }
-    catch(Exception e){
+        }
+        catch(Exception e){
         System.out.println("Exception occured!!");
-    }
-        //patient_chat
+        }
+        
         
     
         
@@ -257,7 +250,7 @@ Class.forName("com.mysql.jdbc.Driver");
             while(!msgin.equals("exit")){
                 msgin = din.readUTF();
                 receive1 = msgin;
-                msg_area.setText(msg_area.getText().trim()+"\nDoctor said:\t"+receive1+"\t\t");
+                msg_area.setText(msg_area.getText().trim()+"\nDoctor said:"+receive1+"\t\t");
 //                time2.append(dateFormat.format(cal.getTime())+"\n");
             }
         }

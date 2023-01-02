@@ -102,7 +102,7 @@ public class Doctor_Patient_Chat extends javax.swing.JFrame {
                 .addComponent(patientBTN)
                 .addGap(18, 18, 18)
                 .addComponent(DoctorBTN)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         pack();

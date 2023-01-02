@@ -171,26 +171,26 @@ public class Doctor_Chat extends javax.swing.JFrame {
         f1=this.msg_area2.getText();
 
      try{  
-Class.forName("com.mysql.jdbc.Driver");  
-//here sonoo is database name, root is username and password
+         Class.forName("com.mysql.jdbc.Driver");  
+
     try (
             Connection con = DriverManager.getConnection(  
             "jdbc:mysql://localhost:3306/chatroom_db","root","")) {
-        //here sonoo is database name, root is username and password
-        int id=1;
+        
+       
         Statement stmt=con.createStatement();
-//        stmt.executeUpdate("INSERT into patient VALUES ('2', 'ahmed','1234567')");
+
         ResultSet rs=stmt.executeQuery("select * from patient");
         
         while(rs.next()){
-//            System.out.println(rs.getString(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+
         } 
       PreparedStatement ps=con.prepareStatement("INSERT into doc_chat VALUES (?)");
       
       ps.setString(1, f1);
       
       ps.executeUpdate();
-//      JOptionPane.showMessageDialog(rootPane, "Reiistration Successfull");
+
       
     }
 }catch(Exception e){ System.out.println(e);} 
@@ -262,7 +262,7 @@ Class.forName("com.mysql.jdbc.Driver");
             while (!msgin.equals("exit")) {
                 msgin = din.readUTF();
                 receive2 = msgin;
-                msg_area2.setText(msg_area2.getText().trim() + "\nPatient said:\t" + receive2+"\t");
+                msg_area2.setText(msg_area2.getText().trim() + "\nPatient said:" + receive2+"\t");
                
             }
 
